@@ -10,8 +10,8 @@ import {Task} from "./components/types"
 
 export const App = () => {
   const showAddEditModal = false
-  const showDeleteModal = false
-  const [isFormOpened, setisFormOpened]=useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isFormOpened, setisFormOpened]=useState(false);
   const [tasks, setTasks]=useState(()=> {
     const storedTask = localStorage.getItem('tasks');
     return storedTask ? JSON.parse(storedTask):taskList;
@@ -34,6 +34,10 @@ export const App = () => {
 
   };
 
+  const handleShowDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+
   
 
   return (
@@ -53,12 +57,12 @@ export const App = () => {
         </div>
         <div className="task-container">
           {tasks.map((task: Task) => (
-            <TaskCard task={task} />
+            <TaskCard task={task} handleShowDeleteModal={handleShowDeleteModal}/>
           ))}
         </div>
       </div>
       {showAddEditModal && <AddEditTaskForm handleClose={handleCloseForm} handleAddTask={handleAddTask} />}
-      {showDeleteModal && <DeleteModal  />}
+      {showDeleteModal && <DeleteModal/>}
     </div>
   )
 }
