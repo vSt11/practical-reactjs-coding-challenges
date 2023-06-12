@@ -6,11 +6,16 @@ import Button from "./components/Button"
 import DeleteModal from "./components/DeleteModal"
 import TaskCard from "./components/TaskCard"
 import { taskList } from "./siteData/taskList"
+import {Task} from "./components/types"
 
-const App = () => {
+export const App = () => {
   const showAddEditModal = false
   const showDeleteModal = false
   const [isFormOpened, setisFormOpened]=useState(false)
+  const [tasks, setTasks]=useState(()=> {
+    const storedTask = localStorage.getItem('tasks');
+    return storedTask ? JSON.parse(storedTask):taskList;
+  });
 
   const handleOpenForm = () =>{
     console.log("open form");
@@ -22,7 +27,14 @@ const App = () => {
     setisFormOpened(false);
   }
 
+  const handleAddTask= (newTask:Task) =>{
+    const updatedTask = [newTask, ...tasks];
+    setTasks(updatedTask);
+    localStorage.setItem('tasks', JSON.stringify(updatedTask));
 
+  };
+
+  
 
   return (
     <div className="container">
@@ -36,17 +48,17 @@ const App = () => {
           onClick={handleOpenForm} 
           />
 
-          {isFormOpened && <AddEditTaskForm handleClose={handleCloseForm} />}
+          {isFormOpened && <AddEditTaskForm handleAddTask={handleAddTask} handleClose={handleCloseForm} />}
           
         </div>
         <div className="task-container">
-          {taskList.map((task) => (
+          {tasks.map((task: Task) => (
             <TaskCard task={task} />
           ))}
         </div>
       </div>
-      {showAddEditModal && <AddEditTaskForm handleClose={handleCloseForm} />}
-      {showDeleteModal && <DeleteModal />}
+      {showAddEditModal && <AddEditTaskForm handleClose={handleCloseForm} handleAddTask={handleAddTask} />}
+      {showDeleteModal && <DeleteModal  />}
     </div>
   )
 }

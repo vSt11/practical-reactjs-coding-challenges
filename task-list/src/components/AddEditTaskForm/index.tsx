@@ -6,14 +6,16 @@ import Modal from "../Modal"
 import "./style.scss"
 import React, { useState } from "react"
 import { taskList } from "../../siteData/taskList"
+import { Task, AddEditTaskFormProps } from '../types';
 
-export const AddEditTaskForm = ({handleClose}: {handleClose:()=>void}) => {
+export const AddEditTaskForm = ({handleClose, handleAddTask}:AddEditTaskFormProps) => {
 
 const [task, setTask] = useState('');
 const [selectedPriority, setSelectedPriority]= useState('');
 const [id, setId] = useState('');
 const [status, setStatus] = useState('To Do');
 const [progress, setProgress] = useState(0);
+
 
 const handleTaskChange = (event: { target: { value: React.SetStateAction<string> } }) => {
   setTask(event.target.value)
@@ -23,22 +25,27 @@ const handlePriorityClick=(priority: string)=>{
   setSelectedPriority(priority);
 }
 
-const handleAddTask=(id:string, title:string, priority:string, status:string, progress:number )=>{
-  const newTask={
-  id,
+
+const handleFormSubmit=(event: any)=>{
+  event.preventDefault();
+
+  const newTask:Task={
+  id:(Math.random()*100).toString(),
   title:task,
   priority:selectedPriority,
-  status,
-  progress }
+  status:'To Do',
+  progress:0, };
 
-  const updatedTaskList = [...taskList, newTask];
+  handleAddTask(newTask);
+  handleClose();
 
 };
 
 
   return (
     <Modal>
-      <form>
+      
+      <form onSubmit={handleFormSubmit}>
         <div className="add-edit-modal">
           <div className="flx-between">
             <span className="modal-title">Adding Task </span>
@@ -69,9 +76,11 @@ const handleAddTask=(id:string, title:string, priority:string, status:string, pr
               ))}
             </ul>
           </div>
+          {task !=='' &&(
           <div className="flx-right mt-50">
-            <Button title="Add" onClick={()=>handleAddTask(id, task, selectedPriority, status, progress)} />
+            <Button title="Add" onClick={handleFormSubmit} />
           </div>
+          )}
         </div>
       </form>
     </Modal>
@@ -79,3 +88,5 @@ const handleAddTask=(id:string, title:string, priority:string, status:string, pr
 }
 
 export default AddEditTaskForm
+
+
