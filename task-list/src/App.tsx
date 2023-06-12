@@ -12,6 +12,7 @@ export const App = () => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isFormOpened, setisFormOpened]=useState(false);
+  const [taskIdToDelete, setTaskIdToDelete] = useState('');
   const [tasks, setTasks]=useState(()=> {
     const storedTask = localStorage.getItem('tasks');
     return storedTask ? JSON.parse(storedTask):taskList;
@@ -34,7 +35,8 @@ export const App = () => {
 
   };
 
-  const ShowDeleteModal = () => {
+  const ShowDeleteModal = (taskId: string) => {
+    setTaskIdToDelete(taskId)
     setShowDeleteModal(true);
   };
 
@@ -60,11 +62,11 @@ export const App = () => {
         </div>
         <div className="task-container">
           {tasks.map((task: Task) => (
-            <TaskCard task={task} ShowDeleteModal={ShowDeleteModal} />
+            <TaskCard task={task} ShowDeleteModal={()=>ShowDeleteModal(task.id)} />
           ))}
         </div>
       </div>
-      {showDeleteModal && <DeleteModal  closeDeleteModal={CloseDeleteModal} tasks={tasks} />}
+      {showDeleteModal && <DeleteModal  closeDeleteModal={CloseDeleteModal} tasks={tasks} setTasks={setTasks} taskId={taskIdToDelete}/>}
     </div>
   )
 }
