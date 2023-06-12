@@ -6,12 +6,9 @@ import "./style.scss"
 import { taskList } from "../../siteData/taskList"
 import { useState } from "react"
 
-const TaskCard = ({ task, ShowDeleteModal, openEditForm }: any) => {
+const TaskCard = ({ task, ShowDeleteModal }: any) => {
   const { id, title, priority, status, progress } = task
 
-  const handleEditClick = () =>{
-    openEditForm(id, title, progress, status, priority);
-  };
   
   return (
     <div className="task-card">
@@ -30,9 +27,7 @@ const TaskCard = ({ task, ShowDeleteModal, openEditForm }: any) => {
         <CircularProgressBar strokeWidth={2} sqSize={24} percentage={progress} />
       </div>
       <div className="actions">
-        <EditIcon className="mr-20 cp" 
-        onClick={handleEditClick} />
-
+        <EditIcon className="mr-20 cp" />
         <DeleteIcon className="cp" onClick={ShowDeleteModal} />
       </div>
     </div>

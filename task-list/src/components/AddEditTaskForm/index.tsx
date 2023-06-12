@@ -5,13 +5,16 @@ import Input from "../Input"
 import Modal from "../Modal"
 import "./style.scss"
 import React, { useState } from "react"
+import { taskList } from "../../siteData/taskList"
 import { Task, AddEditTaskFormProps } from '../types';
 
 export const AddEditTaskForm = ({handleClose, handleAddTask}:AddEditTaskFormProps) => {
 
 const [task, setTask] = useState('');
 const [selectedPriority, setSelectedPriority]= useState('');
-const [isEditClicked, setIsEditClicked]=useState(false);
+const [id, setId] = useState('');
+const [status, setStatus] = useState('To Do');
+const [progress, setProgress] = useState(0);
 
 
 const handleTaskChange = (event: { target: { value: React.SetStateAction<string> } }) => {
@@ -36,10 +39,6 @@ const handleFormSubmit=(event: any)=>{
   handleAddTask(newTask);
   handleClose();
 
-};
-
-const showEditModal=() => {
-  setIsEditClicked(true);
 };
 
 

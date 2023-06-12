@@ -7,7 +7,6 @@ import DeleteModal from "./components/DeleteModal"
 import TaskCard from "./components/TaskCard"
 import { taskList } from "./siteData/taskList"
 import {Task} from "./components/types"
-import { stringify } from "querystring"
 
 export const App = () => {
 
@@ -18,11 +17,6 @@ export const App = () => {
     const storedTask = localStorage.getItem('tasks');
     return storedTask ? JSON.parse(storedTask):taskList;
   });
-
-  const [taskTitlesToEdit, setTaskTitlesToEdit] = useState('');
-  const [taskProgressToEdit, setTaskProgressToEdit] = useState('');
-  const [taskStatusToEdit, setTaskStatusToEdit] = useState(0);
-  const [taskPriorityToEdit, setTaskPriorityToEdit] = useState('');
 
   const handleOpenForm = () =>{
     console.log("open form");
@@ -50,14 +44,6 @@ export const App = () => {
     setShowDeleteModal(false);
   }
 
-  const handleOpenEditForm=(taskId:string)=>{
-    setisFormOpened(true);
-    setTaskIdToEdit(taskId);
-    setTaskTitlesToEdit(TaskTitle);
-    setTaskProgressToEdit(TaskProgress);
-    setTaskStatusToEdit(TaskStatus);
-    setTaskPriorityToEdit(TaskPriority);
-  }
 
   return (
     <div className="container">
@@ -76,14 +62,7 @@ export const App = () => {
         </div>
         <div className="task-container">
           {tasks.map((task: Task) => (
-            <TaskCard 
-            task={task} 
-            ShowDeleteModal={()=>ShowDeleteModal(task.id)}
-            openEditForm={(taskIdToEdit: any, taskTitlesToEdit: any, taskProgressToEdit: any,taskStatusToEdit: any )=>
-              handleOpenEditForm(tasks.id, tasks.title, tasks.progress, tasks.status, task.priority)
-            
-            }
-            />
+            <TaskCard task={task} ShowDeleteModal={()=>ShowDeleteModal(task.id)} />
           ))}
         </div>
       </div>
