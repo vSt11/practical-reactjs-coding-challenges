@@ -9,7 +9,7 @@ import { taskList } from "./siteData/taskList"
 import {Task} from "./components/types"
 
 export const App = () => {
-  const showAddEditModal = false
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isFormOpened, setisFormOpened]=useState(false);
   const [tasks, setTasks]=useState(()=> {
@@ -34,11 +34,14 @@ export const App = () => {
 
   };
 
-  const handleShowDeleteModal = () => {
+  const ShowDeleteModal = () => {
     setShowDeleteModal(true);
   };
 
-  
+  const CloseDeleteModal=() => {
+    setShowDeleteModal(false);
+  }
+
 
   return (
     <div className="container">
@@ -57,12 +60,11 @@ export const App = () => {
         </div>
         <div className="task-container">
           {tasks.map((task: Task) => (
-            <TaskCard task={task} handleShowDeleteModal={handleShowDeleteModal}/>
+            <TaskCard task={task} ShowDeleteModal={ShowDeleteModal} />
           ))}
         </div>
       </div>
-      {showAddEditModal && <AddEditTaskForm handleClose={handleCloseForm} handleAddTask={handleAddTask} />}
-      {showDeleteModal && <DeleteModal/>}
+      {showDeleteModal && <DeleteModal  closeDeleteModal={CloseDeleteModal} tasks={tasks} />}
     </div>
   )
 }

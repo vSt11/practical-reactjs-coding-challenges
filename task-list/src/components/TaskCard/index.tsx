@@ -6,7 +6,7 @@ import "./style.scss"
 import { taskList } from "../../siteData/taskList"
 import { useState } from "react"
 
-const TaskCard = ({ task, handleShowDeleteModal }: any) => {
+const TaskCard = ({ task, ShowDeleteModal }: any) => {
   const { id, title, priority, status, progress } = task
 
   
@@ -28,7 +28,7 @@ const TaskCard = ({ task, handleShowDeleteModal }: any) => {
       </div>
       <div className="actions">
         <EditIcon className="mr-20 cp" />
-        <DeleteIcon className="cp" onClick={handleShowDeleteModal} />
+        <DeleteIcon className="cp" onClick={ShowDeleteModal} />
       </div>
     </div>
   )

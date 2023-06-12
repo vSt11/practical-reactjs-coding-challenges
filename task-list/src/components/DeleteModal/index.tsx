@@ -6,18 +6,18 @@ import {AddEditTaskForm} from "../AddEditTaskForm"
 import { taskList } from "../../siteData/taskList"
 
 
-const DeleteModal = () => {
+
+const DeleteModal = ({closeDeleteModal, tasks}:any) => {
   const [isCanceled, setIsCanceled] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
   const handleDelete = (taskId:string) => {
-    const updatedTaskList = taskList.filter((task) => task.id !== taskId);
+    const updatedTasks = tasks.filter((tasks: { id: string }) => tasks.id !== taskId);
     
-
   };
 
   const handleCancel= () => {
-
+    closeDeleteModal();
   };
 
   return (
@@ -26,7 +26,7 @@ const DeleteModal = () => {
         <p>Are you sure you want to delete this task?</p>
         <div className="delete-modal__actions">
           <Button title="Delete" onClick={()=>handleDelete} />
-          <Button title="Cancel" outline onClick={() => {}} />
+          <Button title="Cancel" outline onClick={handleCancel} />
         </div>
       </div>
     </Modal>
