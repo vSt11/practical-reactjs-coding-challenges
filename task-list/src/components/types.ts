@@ -9,4 +9,6 @@ export type Task = {
  export type AddEditTaskFormProps = {
     handleClose: () => void;
     handleAddTask: (newTask: Task) => void;
+    showEditModal: (taskId: string) => void;
+    isShowEditModal:boolean;
   };
