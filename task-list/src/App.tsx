@@ -10,24 +10,34 @@ import {Task} from "./components/types"
 
 export const App = () => {
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isFormOpened, setisFormOpened]=useState(false);
   const [taskIdToDelete, setTaskIdToDelete] = useState('');
   const [taskIdToEdit, setTaskIdToEdit] = useState('');
+  const [selectedPriority, setSelectedPriority] = useState('')
   const [isShowEditModal, setIsShowEditModal] = useState(false);
 
-  const [tasks, setTasks]=useState(()=> {
-    const storedTask = localStorage.getItem('tasks');
-    return storedTask ? JSON.parse(storedTask):taskList;
+  const [tasks, setTasks] = useState(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      try {
+        const parsedTasks = JSON.parse(storedTasks);
+        if (Array.isArray(parsedTasks)) {
+          return parsedTasks;
+        }
+      } catch (error) {
+        console.error('Error parsing tasks from localStorage:', error);
+      }
+    }
+    return taskList;
   });
 
+
   const handleOpenForm = () =>{
-    console.log("open form");
     setisFormOpened(true);
   }
 
   const handleCloseForm = () =>{
-    console.log("close form");
     setisFormOpened(false);
     setIsShowEditModal(false);
   }
@@ -38,21 +48,40 @@ export const App = () => {
     localStorage.setItem('tasks', JSON.stringify(updatedTask));
   };
 
-  const ShowDeleteModal = (taskId: string) => {
+  const showDeleteModal = (taskId: string) => {
     setTaskIdToDelete(taskId);
-    setShowDeleteModal(true); 
+    setIsShowDeleteModal(true); 
   };
 
   const CloseDeleteModal=() => {
-    setShowDeleteModal(false);
+    setIsShowDeleteModal(false);
+  }
+
+  const handlePriorityClick = (priority: string) => {
+    setSelectedPriority(priority)
   }
 
   const showEditModal=(taskId:string)=>{
     setisFormOpened(true)
-    setTaskIdToEdit(taskId); 
     setIsShowEditModal(true);
-  }
 
+    const taskToEdit:Task | undefined = tasks.find((task:Task)=>task.id===taskId);
+    if (taskToEdit){
+      const updatedTasks= tasks.map((task:Task)=>{
+        if (task.id===taskId){
+          return {
+            ...task,
+            title:taskToEdit.title,
+            priority:taskToEdit.priority
+          };
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+      setTaskIdToEdit(taskId); 
+      setSelectedPriority(taskToEdit.priority);
+    }
+  }
 
   return (
     <div className="container">
@@ -66,16 +95,29 @@ export const App = () => {
           onClick={handleOpenForm} 
           />
 
-          {isFormOpened && <AddEditTaskForm handleAddTask={handleAddTask} handleClose={handleCloseForm} showEditModal={showEditModal} isShowEditModal={isShowEditModal}/>}
+          {isFormOpened && <AddEditTaskForm 
+          handleAddTask={handleAddTask} 
+          handleClose={handleCloseForm} 
+          showEditModal={showEditModal} 
+          isShowEditModal={isShowEditModal} 
+          selectedPriority={selectedPriority}
+          handlePriorityClick={handlePriorityClick}
+          
+          />}
           
         </div>
         <div className="task-container">
           {tasks.map((task: Task) => (
-            <TaskCard task={task} ShowDeleteModal={()=>ShowDeleteModal(task.id)} showEditModal={showEditModal} isShowEditModal={isShowEditModal} />
+            <TaskCard 
+            key={task.id}
+            task={task} 
+            showDeleteModal={()=>showDeleteModal(task.id)} 
+            showEditModal={showEditModal} 
+            isShowEditModal={isShowEditModal} />
           ))}
         </div>
       </div>
-      {showDeleteModal && <DeleteModal  closeDeleteModal={CloseDeleteModal} tasks={tasks} setTasks={setTasks} taskId={taskIdToDelete}/>}
+      {isShowDeleteModal && <DeleteModal  closeDeleteModal={CloseDeleteModal} tasks={tasks} setTasks={setTasks} taskIdToDelete={taskIdToDelete} taskIdToEdit={taskIdToEdit}/>}
     </div>
   )
 }

@@ -11,4 +11,6 @@ export type Task = {
     handleAddTask: (newTask: Task) => void;
     showEditModal: (taskId: string) => void;
     isShowEditModal:boolean;
+    selectedPriority: string;
+    handlePriorityClick:any;
   };
