@@ -8,8 +8,9 @@ import React, { useState } from 'react'
 import { taskList } from '../../siteData/taskList'
 import { Task, AddEditTaskFormProps } from '../types'
 
-export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal, selectedPriority, handlePriorityClick }: AddEditTaskFormProps) => {
+export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal }: AddEditTaskFormProps) => {
   const [task, setTask] = useState('')
+  const [selectedPriority, setSelectedPriority] = useState('')
 
   const [id, setId] = useState('')
   const [status, setStatus] = useState('To Do')
@@ -19,7 +20,9 @@ export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal, s
     setTask(event.target.value)
   }
 
-  
+  const handlePriorityClick = (priority: string) => {
+    setSelectedPriority(priority)
+  }
 
   const handleFormSubmit = (event: any) => {
     event.preventDefault()

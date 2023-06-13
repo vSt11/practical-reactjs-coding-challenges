@@ -4,20 +4,9 @@ import { ReactComponent as EditIcon } from "../../assets/icons/edit.svg"
 import CircularProgressBar from "../CircularProgressBar"
 import "./style.scss"
 import { taskList } from "../../siteData/taskList"
-import { useState } from "react";
-import { Task } from "../types";
+import { useState } from "react"
 
-interface TaskCardProps {
-  task:Task;
-  showDeleteModal:()=>void;
-  showEditModal:(taskId:string)=>void;
-  isShowEditModal:boolean;
-}
-
-const TaskCard:React.FC<TaskCardProps> = ({ 
-  task, 
-  showDeleteModal, 
-  showEditModal }: any) => {
+const TaskCard = ({ task, ShowDeleteModal, showEditModal }: any) => {
   const { id, title, priority, status, progress } = task
   
   return (
@@ -38,7 +27,7 @@ const TaskCard:React.FC<TaskCardProps> = ({
       </div>
       <div className="actions">
         <EditIcon className="mr-20 cp" onClick={()=>showEditModal(task.id)} />
-        <DeleteIcon className="cp" onClick={showDeleteModal(task.id)} />
+        <DeleteIcon className="cp" onClick={ShowDeleteModal} />
       </div>
     </div>
   )
