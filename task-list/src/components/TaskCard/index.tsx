@@ -5,8 +5,22 @@ import CircularProgressBar from "../CircularProgressBar"
 import "./style.scss"
 
 
+
+
 const TaskCard = ({ task, ShowDeleteModal, showEditModal, handleTaskClick }: any) => {
-  const { id,title, priority, status, progress } = task
+
+  const getProgress = (status:string) => {
+    if (status === 'To Do') {
+      return 0;
+    } else if (status === 'In Progress') {
+      return 50;
+    } else if (status === 'Done') {
+      return 100;
+    }
+  };
+
+  const { id,title, priority, status } = task
+  const progress = getProgress(status);
   
   return (
     <div className="task-card">
