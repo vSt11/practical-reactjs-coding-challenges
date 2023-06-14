@@ -18,3 +18,11 @@ export type Task = {
     handleEditTask:any;
     taskToEdit:Task;
   };
+
+  export type TaskCardProps={
+    task:Task,
+    ShowDeleteModal:()=>void; 
+    showEditModal:any;
+    handleTaskClick :any;
+  };
+  

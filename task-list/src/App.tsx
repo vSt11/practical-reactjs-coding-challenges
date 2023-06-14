@@ -67,6 +67,25 @@ export const App = () => {
     console.log(selectedPriority);
   }
 
+  const handleTaskClick = (taskId: string) => {
+    const updatedTasks = tasks.map((task:Task) => {
+      if (task.id === taskId) {
+        if (task.status === 'To Do') {
+          return { ...task, status: 'In Progress' };
+        } else if (task.status === 'In Progress') {
+          return { ...task, status: 'Done' };
+        } else if (task.status === 'Done') {
+          return { ...task, status: 'To Do' };
+        }
+      }
+      return task;
+    });
+  
+    setTasks(updatedTasks);
+  };
+  
+ 
+
   const findTaskById = (taskId: string) => {
     return tasks.find((task: Task) => task.id === taskId)
   }
@@ -112,6 +131,7 @@ export const App = () => {
               ShowDeleteModal={() => ShowDeleteModal(task.id)}
               showEditModal={showEditModal}
               isShowEditModal={isShowEditModal}
+              handleTaskClick={handleTaskClick}
             />
           ))}
         </div>

@@ -5,8 +5,8 @@ import CircularProgressBar from "../CircularProgressBar"
 import "./style.scss"
 
 
-const TaskCard = ({ task, ShowDeleteModal, showEditModal }: any) => {
-  const { title, priority, status, progress } = task
+const TaskCard = ({ task, ShowDeleteModal, showEditModal, handleTaskClick }: any) => {
+  const { id,title, priority, status, progress } = task
   
   return (
     <div className="task-card">
@@ -19,8 +19,7 @@ const TaskCard = ({ task, ShowDeleteModal, showEditModal }: any) => {
         <span className={classNames(`${priority}-priority`, "priority")}>{priority}</span>
       </div>
       <div className="task-status-wrapper">
-        <button className="status">{status}</button>
-      </div>
+      <button className="status" onClick={() => handleTaskClick(task.id)}>{status}</button>      </div>
       <div className="progress">
         <CircularProgressBar strokeWidth={2} sqSize={24} percentage={progress} />
       </div>
