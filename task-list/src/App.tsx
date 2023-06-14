@@ -62,7 +62,9 @@ export const App = () => {
   }
 
   const handlePriorityClick = (priority: string) => {
-    setSelectedPriority(priority)
+    console.log("handle priority");
+    setSelectedPriority(priority);
+    console.log(selectedPriority);
   }
 
   const findTaskById = (taskId: string) => {
@@ -73,7 +75,7 @@ export const App = () => {
     setisFormOpened(true);
     setIsShowEditModal(true);
     setTaskIdToEdit(taskId) ;
-    setTaskToEdit(findTaskById(taskId));    
+    setTaskToEdit({...findTaskById(taskId), priority:findTaskById(taskId)?.priority});    
   }
 
   return (
@@ -95,7 +97,7 @@ export const App = () => {
               handleClose={handleCloseForm}
               showEditModal={showEditModal}
               isShowEditModal={isShowEditModal}
-              selectedPriority={taskToEdit.priority}
+              selectedPriority={selectedPriority}
               handlePriorityClick={handlePriorityClick}
               taskIdToEdit={taskIdToEdit}
               handleEditTask={handleEditTask}

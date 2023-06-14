@@ -3,11 +3,10 @@ import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg"
 import { ReactComponent as EditIcon } from "../../assets/icons/edit.svg"
 import CircularProgressBar from "../CircularProgressBar"
 import "./style.scss"
-import { taskList } from "../../siteData/taskList"
-import { useState } from "react"
+
 
 const TaskCard = ({ task, ShowDeleteModal, showEditModal }: any) => {
-  const { id, title, priority, status, progress } = task
+  const { title, priority, status, progress } = task
   
   return (
     <div className="task-card">

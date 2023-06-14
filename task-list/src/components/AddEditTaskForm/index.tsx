@@ -16,7 +16,6 @@ export const AddEditTaskForm:React.FC<AddEditTaskFormProps> = ({
   selectedPriority, 
   taskIdToEdit,
   taskToEdit,
-  
   handlePriorityClick}: AddEditTaskFormProps) => {
 
   const [task, setTask] = useState('')
@@ -50,7 +49,7 @@ export const AddEditTaskForm:React.FC<AddEditTaskFormProps> = ({
       status:'To Do',
       progress:0
     };
-    
+
     handleEditTask(updatedTask);
     handleClose();
 
@@ -77,19 +76,19 @@ export const AddEditTaskForm:React.FC<AddEditTaskFormProps> = ({
             <div className='modal-priority'>
               <span>Priority</span>
               <ul className='priority-buttons'>
-                {['high', 'medium', 'low'].map(priority => (
-                  <li
-                    key={priority}
-                    className={classNames({
-                      [`${priority}-selected`]: selectedPriority === priority,
-                      [priority]: true
-                    })}
-                    onClick={() => handlePriorityClick(priority)}
-                  >
-                    {priority}
-                  </li>
-                ))}
-              </ul>
+  {['high', 'medium', 'low'].map(priority => (
+    <li
+      key={priority}
+      className={classNames({
+        [`${priority}-selected`]: selectedPriority === priority,
+        [priority]: true
+      })}
+      onClick={() => handlePriorityClick(priority)}
+    >
+      {priority}
+    </li>
+  ))}
+</ul>
             </div>
             {task !== '' && (
               <div className='flx-right mt-50'>
@@ -98,9 +97,6 @@ export const AddEditTaskForm:React.FC<AddEditTaskFormProps> = ({
             )}
           </div>
         </form>
-
-
-
 
       ) : (
         //Else, Adding task
