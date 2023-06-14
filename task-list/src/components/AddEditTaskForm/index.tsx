@@ -8,24 +8,25 @@ import React, { useState } from 'react'
 import { taskList } from '../../siteData/taskList'
 import { Task, AddEditTaskFormProps } from '../types'
 
-export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal }: AddEditTaskFormProps) => {
+export const AddEditTaskForm:React.FC<AddEditTaskFormProps> = ({ 
+  handleClose, 
+  handleAddTask, 
+  handleEditTask,
+  isShowEditModal, 
+  selectedPriority, 
+  taskIdToEdit,
+  taskToEdit,
+  
+  handlePriorityClick}: AddEditTaskFormProps) => {
+
   const [task, setTask] = useState('')
-  const [selectedPriority, setSelectedPriority] = useState('')
-
-  const [id, setId] = useState('')
-  const [status, setStatus] = useState('To Do')
-  const [progress, setProgress] = useState(0)
-
-  const handleTaskChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+  
+  const handleTaskChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     setTask(event.target.value)
   }
 
-  const handlePriorityClick = (priority: string) => {
-    setSelectedPriority(priority)
-  }
-
-  const handleFormSubmit = (event: any) => {
-    event.preventDefault()
+  const handleFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     const newTask: Task = {
       id: (Math.random() * 100).toString(),
@@ -35,8 +36,24 @@ export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal }:
       progress: 0
     }
 
-    handleAddTask(newTask)
-    handleClose()
+    handleAddTask(newTask);
+    handleClose();
+  }
+
+  const handleFormEdit = (event:React.FormEvent)=>{
+    event.preventDefault();
+
+    const updatedTask :Task={
+      id:taskIdToEdit,
+      title:task, 
+      priority:selectedPriority,
+      status:'To Do',
+      progress:0
+    };
+    
+    handleEditTask(updatedTask);
+    handleClose();
+
   }
 
   return (
@@ -44,7 +61,7 @@ export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal }:
       {isShowEditModal ? (
         // Editing Task
 
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormEdit}>
           <div className='add-edit-modal'>
             <div className='flx-between'>
               <span className='modal-title'>Editing Task </span>
@@ -52,11 +69,10 @@ export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal }:
             </div>
             <Input
               label='Task'
-              placeholder='Type your task here...'
               onChange={handleTaskChange}
               name='title'
-              value={task}
-            />
+              value={task || taskToEdit.title} 
+              placeholder={''}            />
 
             <div className='modal-priority'>
               <span>Priority</span>
@@ -77,11 +93,15 @@ export const AddEditTaskForm = ({ handleClose, handleAddTask, isShowEditModal }:
             </div>
             {task !== '' && (
               <div className='flx-right mt-50'>
-                <Button title='Add' onClick={handleFormSubmit} />
+                <Button title='Edit' onClick={handleFormEdit} />
               </div>
             )}
           </div>
         </form>
+
+
+
+
       ) : (
         //Else, Adding task
 
